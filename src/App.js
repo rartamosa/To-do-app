@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import Navigation from "./components/Navigation";
 import Main from "./components/Main";
 import TaskForm from "./components/TaskForm";
+import useLocalStorage from "./components/hooks/useLocalStorage";
 
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [toDoList, setToDoList] = useState([]);
+  // const [toDoList, setToDoList] = useState([]);
+  const [toDoList, setToDoList] = useLocalStorage("tasksList", []);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mode, setMode] = useState("add");
   const [selectedTask, setSelectedTask] = useState(null);

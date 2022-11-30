@@ -1,30 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TagsInput } from "react-tag-input-component";
 import DatePicker from "react-datepicker";
 import uniqid from "uniqid";
-
 import "react-datepicker/dist/react-datepicker.css";
 
+import useLocalStorage from "./hooks/useLocalStorage";
+
 const TaskForm = ({ onModalClose, mode, taskToEdit, handleFormSubmit }) => {
-  const [title, setTitle] = useState(mode === "add" ? "" : taskToEdit.title);
-  const [description, setDescription] = useState(
+  const [title, setTitle, resetTitle] = useLocalStorage(
+    "taskTitle",
+    mode === "add" ? "" : taskToEdit.title
+  );
+
+  const [description, setDescription, resetDescription] = useLocalStorage(
+    "taskDescription",
     mode === "add" ? "" : taskToEdit.description
   );
-  const [link, setLink] = useState(mode === "add" ? "" : taskToEdit.link);
-  const [tags, setTags] = useState(mode === "add" ? [] : taskToEdit.tags);
-  const [dueDate, setDueDate] = useState(
+
+  const [link, setLink, resetLink] = useLocalStorage(
+    "taskLink",
+    mode === "add" ? "" : taskToEdit.link
+  );
+
+  const [tags, setTags, resetTags] = useLocalStorage(
+    "taskTags",
+    mode === "add" ? [] : taskToEdit.tags
+  );
+
+  const [dueDate, setDueDate, resetDueDate] = useLocalStorage(
+    "taskDueDate",
     mode === "add" ? new Date() : taskToEdit.dueDate
   );
-  const [assignee, setAssignee] = useState(
+
+  const [assignee, setAssignee, resetAssignee] = useLocalStorage(
+    "taskAssignee",
     mode === "add" ? "" : taskToEdit.assignee
   );
-  const [comments, setComments] = useState(
+
+  const [comments, setComments, resetComments] = useLocalStorage(
+    "taskComments",
     mode === "add" ? [] : taskToEdit.comments
   );
-  const [singleComment, setSingleComment] = useState("");
-  const [column, setColumn] = useState(
+
+  const [column, setColumn, resetColumn] = useLocalStorage(
+    "taskColumn",
     mode === "add" ? "TO DO" : taskToEdit.column
   );
+
+  const [singleComment, setSingleComment] = useState("");
 
   const onFormSubmit = (event) => {
     event.preventDefault();
@@ -40,7 +63,7 @@ const TaskForm = ({ onModalClose, mode, taskToEdit, handleFormSubmit }) => {
       column,
       comments
     );
-    onModalClose();
+    handleModalClose();
   };
 
   const addNewComment = (event) => {
@@ -49,6 +72,18 @@ const TaskForm = ({ onModalClose, mode, taskToEdit, handleFormSubmit }) => {
       event.preventDefault();
       setSingleComment("");
     }
+  };
+
+  const handleModalClose = () => {
+    onModalClose();
+    resetTitle();
+    resetDescription();
+    resetLink();
+    resetTags();
+    resetDueDate();
+    resetAssignee();
+    resetComments();
+    resetColumn();
   };
 
   const CustomInput = React.forwardRef(({ value, onClick, onChange }, ref) => (
@@ -105,7 +140,7 @@ const TaskForm = ({ onModalClose, mode, taskToEdit, handleFormSubmit }) => {
                 </h4>
                 <div>
                   <DatePicker
-                    selected={dueDate}
+                    selected={new Date(dueDate)}
                     onChange={(date) => setDueDate(date)}
                     dateFormat={"dd/MM/yyyy"}
                     customInput={<CustomInput />}
@@ -184,7 +219,7 @@ const TaskForm = ({ onModalClose, mode, taskToEdit, handleFormSubmit }) => {
           </div>
           <div className="add-window__container_buttons">
             <button
-              onClick={onModalClose}
+              onClick={handleModalClose}
               type="button"
               className="add-window__container_button"
             >

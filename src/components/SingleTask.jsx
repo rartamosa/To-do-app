@@ -6,7 +6,7 @@ const SingleTask = ({ task, onEditFormOpen }) => {
     <div className="todo__column_task" onClick={() => onEditFormOpen(task)}>
       <h2 className="todo__column_task-name">{task.title}</h2>
       <div className="todo__column_task-date-person">
-        <div>{format(task.dueDate, "do MMM")}</div>
+        <div>{format(new Date(task.dueDate), "do MMM")}</div>
         <div className="todo__column_task-date-person_dot">.</div>
         <div>
           Assigned to
