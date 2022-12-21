@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { TagsInput } from "react-tag-input-component";
 import DatePicker from "react-datepicker";
 import uniqid from "uniqid";

@@ -7,7 +7,6 @@ import useLocalStorage from "./components/hooks/useLocalStorage";
 
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [toDoList, setToDoList] = useState([]);
   const [toDoList, setToDoList] = useLocalStorage("tasksList", []);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mode, setMode] = useState("add");

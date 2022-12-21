@@ -13,8 +13,6 @@ const Navigation = ({ tasksTotal, isMobileMenuOpen, onMobileMenuClose }) => {
       </nav>
       <div
         onClick={onMobileMenuClose}
-        // className="navigation__overlay"
-        // style={{ left: isMobileMenuOpen ? "0" : "-100%" }}
         className={`navigation__overlay ${
           !isMobileMenuOpen && "navigation__overlay_closed"
         }`}
